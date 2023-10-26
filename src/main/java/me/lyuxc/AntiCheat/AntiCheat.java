@@ -1,4 +1,4 @@
-package me.lyuxc.AntiCheat;
+package me.lyuxc.AntiCheat.me.lyuxc.AntiCheat;
 
 import net.minecraft.network.chat.Component;
 import net.minecraftforge.common.ForgeConfigSpec;
