@@ -1,4 +1,4 @@
-package me.lyuxc.AntiCheat.me.lyuxc.AntiCheat;
+package me.lyuxc.AntiCheat;
 
 import net.minecraft.network.chat.Component;
 import net.minecraftforge.common.ForgeConfigSpec;
@@ -47,11 +47,11 @@ public class AntiCheat {
         ForgeConfigSpec.Builder builder = new ForgeConfigSpec.Builder();
         builder.comment("AntiCheat").push("Config");
         //禁用模组列表
-        banMods = builder.defineList("Disable Mod List", List.of(AntiCheat.DISABLE_MOD_ID), obj -> true);
+        banMods = builder.defineList("List of banned mods", List.of(AntiCheat.DISABLE_MOD_ID), obj -> true);
         //禁用指令列表
-        banCommand = builder.defineList("Disable Command List", List.of(AntiCheat.DISABLE_COMMAND), obj -> true);
+        banCommand = builder.defineList("Disabled command list", List.of(AntiCheat.DISABLE_COMMAND), obj -> true);
         //最大加载上限
-        maxModCount = builder.defineInRange("Max Mod Count",MAX_MOD_COUNT,3,Integer.MAX_VALUE);
+        maxModCount = builder.defineInRange("Maximum number of mods that can be loaded",MAX_MOD_COUNT,3,Integer.MAX_VALUE);
         builder.pop();
         commonConfig = builder.build();
     }
