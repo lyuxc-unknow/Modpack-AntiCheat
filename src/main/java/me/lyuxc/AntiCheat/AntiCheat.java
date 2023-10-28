@@ -69,13 +69,13 @@ public class AntiCheat {
         for(String modIds : banMods.get()) {
             if(ModList.get().isLoaded(modIds)) {
                 //抛出异常
-                throw new RuntimeException("disable mod:" + modIds);
+                throw new NullPointerException("disable mod:" + modIds);
             }
         }
         //如果加载到的数组数量大于设定的上限
         if(ModList.get().getMods().size() > maxModCount.get()) {
             //抛出异常
-            throw new RuntimeException("Exceeded the maximum number of mods");
+            throw new NullPointerException("Exceeded the maximum number of mods");
         }
     }
     @SubscribeEvent
