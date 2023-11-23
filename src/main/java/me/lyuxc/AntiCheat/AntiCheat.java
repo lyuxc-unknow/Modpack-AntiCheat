@@ -12,6 +12,8 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.List;
 
@@ -24,6 +26,7 @@ public class AntiCheat {
     public static  ForgeConfigSpec.IntValue maxModCount;
     public static  ForgeConfigSpec.ConfigValue<List<? extends String>> banCommand;
     public static ForgeConfigSpec commonConfig;
+    public static final Logger LOGGER = LogManager.getLogger("ModLoader");
     //列表 - 禁用命令
     public static String[] DISABLE_COMMAND = {
             "gamemode", "give", "attribute", "advancement", "difficulty", "effect", "fill", "gamerule",
@@ -68,14 +71,14 @@ public class AntiCheat {
         //如果检测到被禁用的模组
         for(String modIds : banMods.get()) {
             if(ModList.get().isLoaded(modIds)) {
-                //抛出异常
-                throw new NullPointerException("disable mod:" + modIds);
+                LOGGER.error("disable mod:" + modIds);
+                System.exit(0);
             }
         }
         //如果加载到的数组数量大于设定的上限
         if(ModList.get().getMods().size() > maxModCount.get()) {
-            //抛出异常
-            throw new NullPointerException("Exceeded the maximum number of mods");
+            LOGGER.error("Exceeded the maximum number of mods");
+            System.exit(0);
         }
     }
     @SubscribeEvent
