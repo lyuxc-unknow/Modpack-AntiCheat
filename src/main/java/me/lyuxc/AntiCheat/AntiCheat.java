@@ -28,11 +28,11 @@ import java.util.Objects;
 public class AntiCheat {
     //最大模组数
     public static final int MAX_MOD_COUNT = 200;
-    public static  ForgeConfigSpec.IntValue maxModCount;
-    public static  ForgeConfigSpec.ConfigValue<String> bannedBlockTips;
+    public static ForgeConfigSpec.IntValue maxModCount;
+    public static ForgeConfigSpec.ConfigValue<String> bannedBlockTips;
     public static ForgeConfigSpec.ConfigValue<List<? extends String>> banMods;
-    public static  ForgeConfigSpec.ConfigValue<List<? extends String>> banCommands;
-    public static  ForgeConfigSpec.ConfigValue<List<? extends String>> banBlocks;
+    public static ForgeConfigSpec.ConfigValue<List<? extends String>> banCommands;
+    public static ForgeConfigSpec.ConfigValue<List<? extends String>> banBlocks;
     public static ForgeConfigSpec commonConfig;
     public static final Logger LOGGER = LogManager.getLogger("ModLoader");
     //列表 - 禁用命令
@@ -51,8 +51,8 @@ public class AntiCheat {
 
     public AntiCheat() {
         ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON,commonConfig);
-        IEventBus eventBus = FMLJavaModLoadingContext.get().getModEventBus();
-        eventBus.addListener(this::onCommonSetupEvent);
+        IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
+        modEventBus.addListener(this::onCommonSetupEvent);
         MinecraftForge.EVENT_BUS.register(this);
     }
 
@@ -75,7 +75,7 @@ public class AntiCheat {
         commonConfig = builder.build();
     }
 
-    public void onCommonSetupEvent(FMLCommonSetupEvent event) {
+    private void onCommonSetupEvent(FMLCommonSetupEvent event) {
         //当禁用模组列表中有本模组或者未空时候
         if(banMods.get().contains("modpack_anti_cheat")
                 || banMods.get().isEmpty()
@@ -97,8 +97,9 @@ public class AntiCheat {
             System.exit(0);
         }
     }
+
     @SubscribeEvent
-    public void onCommandEvent(CommandEvent event) {
+    private void onCommandEvent(CommandEvent event) {
         //获取输入的指令，并以空格进行切割
         String[] command = event.getParseResults().getReader().getRead().split(" ");
         //遍历禁用命令列表
@@ -112,7 +113,7 @@ public class AntiCheat {
     }
 
     @SubscribeEvent
-    public void onPlayerInteractEvent(PlayerInteractEvent.RightClickBlock event) {
+    private void onPlayerInteractEvent(PlayerInteractEvent.RightClickBlock event) {
         Player player = event.getEntity();
         Level level = event.getLevel();
         BlockState blockState = level.getBlockState(event.getPos());
